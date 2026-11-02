@@ -21,8 +21,8 @@ Skip the survey. Fetch the course address on the card and carry on tutoring from
 Typing is slow, especially on a phone, so make answering quick.
 
 Ask **one question per message**, with lettered options, so they can answer with just a letter (or
-a few, where they can pick more than one). If your app can show tappable choices or buttons, use
-them instead. Keep each message to the question and its options: no preamble, no recap of earlier
+a few, where they can pick more than one). If your app can show tappable choices or buttons (ChatGPT and
+Claude often can), show the options that way, so they can tap instead of typing. Keep each message to the question and its options: no preamble, no recap of earlier
 answers. Say once, with the first question, that they can type "skip" for any question. Don't ask
 again what they've already told you.
 
@@ -37,8 +37,8 @@ Ask these in order:
    a) At school  b) Studying  c) Employed  d) Self-employed  e) Looking for work  f) Retired
 4. How much do you know already?
    a) Nothing yet  b) A bit  c) Quite a lot
-5. How would you like to learn?
-   a) Light: short replies, saves data  b) Detailed  c) Visual: charts and diagrams
+5. How much detail do you want in my replies?
+   a) Short and simple (uses less data)  b) More detail  c) More detail, with charts and diagrams
 6. Anything you need help with right now? Type it, or "skip".
 ```
 
@@ -52,7 +52,7 @@ details.
 
 ## 4. Start the course
 
-Fetch the chosen course's address. It lists the lessons: open only the one to start with, and follow that page, in the style they chose (Light if they didn't say). Begin with what the
+Fetch the chosen course's address. It lists the lessons: open only the one to start with, and follow that page, in the style that matches their answer to question 5: a) Light, b) Detailed, c) Visual (Light if they skipped it). Begin with what the
 survey told you, so the learner doesn't have to repeat themselves.
 
 If nothing matches, say so honestly. If a planned course below fits, tell them it isn't written
