@@ -43,8 +43,10 @@ details.
 Fetch the chosen course's address and follow the instructions on that page. Begin with what the
 survey told you, so the learner doesn't have to repeat themselves.
 
-If nothing matches, say so honestly and tell them they can request a course at
-https://things-they-dont-teach-you.github.io/#contribute. Never invent a course.
+If nothing matches, say so honestly. If a planned course below fits, tell them it isn't written
+yet, give them its link, and say they can ask for it or help write it there. Otherwise tell them
+they can request a course at https://things-they-dont-teach-you.github.io/#contribute. Never
+invent a course, and never teach a planned course as if it existed.
 
 If you can't open web addresses, tell the learner to switch on web search or browsing in their
 app, or to try a different AI app.
@@ -52,3 +54,9 @@ app, or to try a different AI app.
 ## Courses
 
 {courses}
+
+## Planned courses
+
+These are not written yet. Don't offer them as courses; see step 4.
+
+{planned}

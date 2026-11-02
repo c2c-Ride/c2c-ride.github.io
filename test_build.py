@@ -29,12 +29,22 @@ def test_is_course():
     assert build.is_course({"topics": ["subject-tax", "country-za"], "archived": False})
     assert not build.is_course({"topics": ["subject-tax"], "archived": True})
     assert not build.is_course({"topics": [], "archived": False})
+    planned = {"topics": ["subject-tax", "country-gb", "planned"], "archived": False}
+    assert not build.is_course(planned)
+    assert build.is_planned(planned)
+    assert not build.is_planned({"topics": ["subject-tax", "country-za"], "archived": False})
 
 
 def test_start_page_lists_courses():
-    page = build.start_page([{"name": "demo-tax", "description": "Demo", "topics": ["subject-tax", "country-za"]}])
+    page = build.start_page(
+        [{"name": "demo-tax", "description": "Demo", "topics": ["subject-tax", "country-za"]}],
+        [{"name": "uk-tax", "topics": ["subject-tax", "country-gb", "planned"]}],
+    )
     assert "https://things-they-dont-teach-you.github.io/demo-tax.md" in page
     assert "Demo" in page and "country-za" in page
+    ready, planned = page.split("## Planned courses")
+    assert "uk-tax" not in ready
+    assert "https://github.com/things-they-dont-teach-you/uk-tax" in planned
 
 
 if __name__ == "__main__":

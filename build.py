@@ -32,26 +32,39 @@ def bundle(course_dir, name):
     return "\n".join(parts)
 
 
-def is_course(repo):
+def has_subject(repo):
     return not repo["archived"] and any(t.startswith("subject-") for t in repo["topics"])
 
 
-def start_page(courses):
+def is_course(repo):
+    return has_subject(repo) and "planned" not in repo["topics"]
+
+
+def is_planned(repo):
+    return has_subject(repo) and "planned" in repo["topics"]
+
+
+def start_page(courses, planned=()):
     lines = [f"- **{c['name']}**: {c['description']} ({', '.join(c['topics'])}). Address: {course_url(c['name'])}" for c in courses]
-    return (HERE / "chat/start.md").read_text().replace("{courses}", "\n".join(lines) or "None yet.")
+    planned_lines = [f"- **{p['name']}** ({', '.join(t for t in p['topics'] if t != 'planned')}): https://github.com/{ORG}/{p['name']}" for p in planned]
+    return ((HERE / "chat/start.md").read_text()
+            .replace("{courses}", "\n".join(lines) or "None yet.")
+            .replace("{planned}", "\n".join(planned_lines) or "None."))
 
 
 def main(out):
     out = pathlib.Path(out)
     out.mkdir(parents=True, exist_ok=True)
     with urllib.request.urlopen(f"https://api.github.com/orgs/{ORG}/repos?per_page=100") as r:
-        courses = [repo for repo in json.load(r) if is_course(repo)]
+        repos = json.load(r)
+    courses = [repo for repo in repos if is_course(repo)]
+    planned = [repo for repo in repos if is_planned(repo)]
     with tempfile.TemporaryDirectory() as tmp:
         for c in courses:
             dest = pathlib.Path(tmp, c["name"])
             subprocess.run(["git", "clone", "-q", "--depth", "1", c["clone_url"], str(dest)], check=True)
             (out / f"{c['name']}.md").write_text(bundle(dest, c["name"]))
-    (out / "start.md").write_text(start_page(courses))
+    (out / "start.md").write_text(start_page(courses, planned))
     print(f"built start.md and {len(courses)} course(s) in {out}")
 
 
