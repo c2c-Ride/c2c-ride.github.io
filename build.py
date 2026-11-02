@@ -4,6 +4,7 @@ Usage: python3 build.py OUT_DIR
 """
 import json
 import pathlib
+import re
 import subprocess
 import sys
 import tempfile
@@ -22,6 +23,27 @@ def lesson_title(path):
     return path.read_text().splitlines()[0].lstrip("# ").strip()
 
 
+def facts_for(lesson_text, facts):
+    """Keeps only the facts.md sections a lesson names in a <!-- facts: A; B --> line.
+
+    No such line keeps every section; "none" keeps only the intro. An unknown name fails the build,
+    so a renamed section can't silently drop a figure a lesson relies on.
+    """
+    m = re.search(r"<!--\s*facts:\s*(.*?)\s*-->", lesson_text, re.S)
+    if not m:
+        return facts
+    intro, *sections = facts.split("\n## ")
+    keep = []
+    for want in (w.strip().lower() for w in m.group(1).split(";")):
+        if want == "none":
+            continue
+        found = [sec for sec in sections if sec.lower().startswith(want)]
+        if not found:
+            raise ValueError(f"facts.md has no section starting {want!r}")
+        keep += [sec for sec in found if sec not in keep]
+    return "\n\n".join([intro.strip(), *("## " + sec.strip() for sec in keep)]) + "\n"
+
+
 def course_pages(course_dir, name):
     """Returns {published path: text}: a small index, then one self-contained page per lesson."""
     course_dir = pathlib.Path(course_dir)
@@ -33,15 +55,17 @@ def course_pages(course_dir, name):
 
     index = (HERE / "chat/course-index.md").read_text().replace("{course}", name).replace(
         "{lessons}", "\n".join(f"- {lesson_title(l)}: {SITE}/{p}" for l, p in zip(lessons, paths)))
-    pages = {f"{name}.md": index}
+    pages = {f"{name}.md": index, f"{name}/facts.md": facts + "\n"}
     for i, (lesson, path) in enumerate(zip(lessons, paths)):
         last = i == len(lessons) - 1
         next_url = f"{SITE}/{path}" if last else f"{SITE}/{paths[i + 1]}"
         nxt = ("this is the last lesson of the course; congratulate them, and suggest another course "
                f"from {SITE}/start.md") if last else f"{lesson_title(lessons[i + 1])}, at {next_url}"
         top = (header.replace("{course}", name).replace("{title}", lesson_title(lesson))
-               .replace("{url}", f"{SITE}/{path}").replace("{next_url}", next_url).replace("{next}", nxt))
-        pages[path] = f"{top}{rules}\n\n---\n\n{facts}\n\n---\n\n{lesson.read_text().strip()}\n"
+               .replace("{url}", f"{SITE}/{path}").replace("{next_url}", next_url).replace("{next}", nxt)
+               .replace("{facts_url}", f"{SITE}/{name}/facts.md"))
+        text = lesson.read_text().strip()
+        pages[path] = f"{top}{rules}\n\n---\n\n{facts_for(text, facts).strip()}\n\n---\n\n{text}\n"
     return pages
 
 
