@@ -4,6 +4,7 @@ Usage: python3 build.py OUT_DIR
 """
 import html
 import json
+import os
 import pathlib
 import re
 import subprocess
@@ -169,7 +170,10 @@ def start_page(courses, planned=()):
 def main(out):
     out = pathlib.Path(out)
     out.mkdir(parents=True, exist_ok=True)
-    with urllib.request.urlopen(f"https://api.github.com/orgs/{ORG}/repos?per_page=100") as r:
+    req = urllib.request.Request(f"https://api.github.com/orgs/{ORG}/repos?per_page=100")
+    if os.environ.get("GITHUB_TOKEN"):  # anonymous calls share a low rate limit on CI runners
+        req.add_header("Authorization", f"Bearer {os.environ['GITHUB_TOKEN']}")
+    with urllib.request.urlopen(req) as r:
         repos = json.load(r)
     courses = [repo for repo in repos if is_course(repo)]
     planned = [repo for repo in repos if is_planned(repo)]

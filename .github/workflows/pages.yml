@@ -25,7 +25,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 test_build.py
-      - run: |
+      - env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
           mkdir _site
           cp index.html _site/
           python3 build.py _site
