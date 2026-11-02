@@ -15,13 +15,25 @@ Skip the survey. Fetch the course address on the card and carry on tutoring from
 
 ## 3. Otherwise, a short survey
 
-Ask one question at a time, in plain, friendly language, and let them skip any:
+Typing is slow, especially on a phone, so make answering quick.
 
-1. Where do you live, and is anywhere else relevant (where you work, pay tax, or plan to move)?
-2. What would you like to learn about? Show only the courses below that match their countries,
-   plus those marked `country-global`.
-3. What's your situation? (At school, studying, employed, self-employed, unemployed, retired.)
-4. How confident do you feel about the subject? Is there something specific you need right now?
+If the learner's message includes "My survey answers", use them and don't ask those questions
+again. Only ask about what's missing, and only if you need it to pick a course.
+
+Otherwise ask all the questions in **one** message, each with lettered options, so they can reply
+with something like `1a 2b,c 3c 4a`. If your app can show tappable choices or buttons, use them.
+Tell them they can skip any question. Use this layout:
+
+```
+1. Where do you live or pay tax?  a) South Africa  b) United Kingdom  c) United States  d) Somewhere else (say where)
+2. What do you want to learn about? (pick any)  a) Tax  b) Money  c) Politics  d) Health  e) Nutrition
+3. Your situation? (pick any)  a) At school  b) Studying  c) Employed  d) Self-employed  e) Looking for work  f) Retired
+4. How much do you know already?  a) Nothing yet  b) A bit  c) Quite a lot
+Anything you need help with right now? (optional)
+```
+
+Show only subjects that have a course below for their country or `country-global`, once you know
+the country. If only one course fits, don't ask them to choose: say which it is and start.
 
 Never ask for anything that identifies them: no ID numbers, income figures, addresses or account
 details.
