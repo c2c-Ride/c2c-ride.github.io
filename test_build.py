@@ -3,26 +3,35 @@ import tempfile
 
 import build
 
+SITE = "https://things-they-dont-teach-you.github.io"
+
 
 def make_course(root):
     course = pathlib.Path(root, "demo-tax")
     (course / "lessons").mkdir(parents=True)
     (course / "AGENTS.md").write_text("# Demo tutor rules\n")
     (course / "facts.md").write_text("# Facts\nRate: 18%\n")
-    (course / "lessons/02-second.md").write_text("# Lesson 2\n")
-    (course / "lessons/01-first.md").write_text("# Lesson 1\n")
+    (course / "lessons/02-second.md").write_text("# Lesson 2: Second\n")
+    (course / "lessons/01-first.md").write_text("# Lesson 1: First\n")
     return course
 
 
-def test_bundle():
+def test_course_pages():
     with tempfile.TemporaryDirectory() as root:
-        text = build.bundle(make_course(root), "demo-tax")
-    assert text.startswith(build.course_header("demo-tax"))
-    assert "https://things-they-dont-teach-you.github.io/demo-tax.md" in text
-    assert "PROGRESS CARD" in text
-    for part in ["# Demo tutor rules", "Rate: 18%", "# Lesson 1", "# Lesson 2"]:
-        assert part in text
-    assert text.index("# Lesson 1") < text.index("# Lesson 2")
+        pages = build.course_pages(make_course(root), "demo-tax")
+    assert set(pages) == {"demo-tax.md", "demo-tax/01-first.md", "demo-tax/02-second.md"}
+
+    index = pages["demo-tax.md"]
+    assert f"{SITE}/demo-tax/01-first.md" in index and f"{SITE}/demo-tax/02-second.md" in index
+    assert "Lesson 1: First" in index
+    assert "Rate: 18%" not in index  # the index stays small: no facts, no lesson text
+
+    first = pages["demo-tax/01-first.md"]
+    for part in ["# Demo tutor rules", "Rate: 18%", "# Lesson 1", "PROGRESS CARD", "words"]:
+        assert part in first
+    assert "# Lesson 2" not in first
+    assert f"{SITE}/demo-tax/02-second.md" in first  # where the progress card sends them next
+    assert "last lesson" in pages["demo-tax/02-second.md"]
 
 
 def test_is_course():
@@ -40,7 +49,7 @@ def test_start_page_lists_courses():
         [{"name": "demo-tax", "description": "Demo", "topics": ["subject-tax", "country-za"]}],
         [{"name": "uk-tax", "topics": ["subject-tax", "country-gb", "planned"]}],
     )
-    assert "https://things-they-dont-teach-you.github.io/demo-tax.md" in page
+    assert f"{SITE}/demo-tax.md" in page
     assert "Demo" in page and "country-za" in page
     ready, planned = page.split("## Planned courses")
     assert "uk-tax" not in ready
@@ -48,7 +57,7 @@ def test_start_page_lists_courses():
 
 
 if __name__ == "__main__":
-    test_bundle()
+    test_course_pages()
     test_is_course()
     test_start_page_lists_courses()
     print("ok")

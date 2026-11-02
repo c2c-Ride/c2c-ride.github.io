@@ -1,4 +1,4 @@
-"""Builds the chat editions: start.md, and one <course>.md per course repository.
+"""Builds the chat editions: start.md, and per course an index plus one page per lesson.
 
 Usage: python3 build.py OUT_DIR
 """
@@ -18,18 +18,31 @@ def course_url(name):
     return f"{SITE}/{name}.md"
 
 
-def course_header(name):
-    text = (HERE / "chat/course-header.md").read_text()
-    return text.replace("{course}", name).replace("{url}", course_url(name))
+def lesson_title(path):
+    return path.read_text().splitlines()[0].lstrip("# ").strip()
 
 
-def bundle(course_dir, name):
+def course_pages(course_dir, name):
+    """Returns {published path: text}: a small index, then one self-contained page per lesson."""
     course_dir = pathlib.Path(course_dir)
-    parts = [course_header(name)]
-    files = [course_dir / "AGENTS.md", course_dir / "facts.md", *sorted((course_dir / "lessons").glob("*.md"))]
-    for f in files:
-        parts.append(f"<!-- {f.relative_to(course_dir)} -->\n\n{f.read_text().strip()}\n")
-    return "\n".join(parts)
+    rules = (course_dir / "AGENTS.md").read_text().strip()
+    facts = (course_dir / "facts.md").read_text().strip()
+    lessons = sorted((course_dir / "lessons").glob("*.md"))
+    paths = [f"{name}/{lesson.name}" for lesson in lessons]
+    header = (HERE / "chat/lesson-header.md").read_text()
+
+    index = (HERE / "chat/course-index.md").read_text().replace("{course}", name).replace(
+        "{lessons}", "\n".join(f"- {lesson_title(l)}: {SITE}/{p}" for l, p in zip(lessons, paths)))
+    pages = {f"{name}.md": index}
+    for i, (lesson, path) in enumerate(zip(lessons, paths)):
+        last = i == len(lessons) - 1
+        next_url = f"{SITE}/{path}" if last else f"{SITE}/{paths[i + 1]}"
+        nxt = ("this is the last lesson of the course; congratulate them, and suggest another course "
+               f"from {SITE}/start.md") if last else f"{lesson_title(lessons[i + 1])}, at {next_url}"
+        top = (header.replace("{course}", name).replace("{title}", lesson_title(lesson))
+               .replace("{url}", f"{SITE}/{path}").replace("{next_url}", next_url).replace("{next}", nxt))
+        pages[path] = f"{top}{rules}\n\n---\n\n{facts}\n\n---\n\n{lesson.read_text().strip()}\n"
+    return pages
 
 
 def has_subject(repo):
@@ -63,7 +76,9 @@ def main(out):
         for c in courses:
             dest = pathlib.Path(tmp, c["name"])
             subprocess.run(["git", "clone", "-q", "--depth", "1", c["clone_url"], str(dest)], check=True)
-            (out / f"{c['name']}.md").write_text(bundle(dest, c["name"]))
+            for path, text in course_pages(dest, c["name"]).items():
+                (out / path).parent.mkdir(parents=True, exist_ok=True)
+                (out / path).write_text(text)
     (out / "start.md").write_text(start_page(courses, planned))
     print(f"built start.md and {len(courses)} course(s) in {out}")
 
