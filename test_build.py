@@ -58,7 +58,7 @@ def test_diagrams_published_with_absolute_links():
         (course / "diagrams/brackets.svg").write_text("<svg/>")
         (course / "lessons/01-first.md").write_text("# Lesson 1: First\n![Brackets](../diagrams/brackets.svg)\n")
         pages = build.course_pages(course, "demo-tax")
-    assert pages["demo-tax/diagrams/brackets.svg"] == "<svg/>"
+    assert pages["demo-tax/diagrams/brackets.svg"].startswith("<svg")
     assert f"![Brackets]({SITE}/demo-tax/diagrams/brackets.svg)" in pages["demo-tax/01-first.md"]
 
 
@@ -67,7 +67,8 @@ def test_unsafe_course_files_fail_the_build():
                 '<svg><a href="javascript:x()"/></svg>', '<svg><foreignObject/></svg>',
                 '<svg/onload="x()"/>', '<svg xmlns="http://www.w3.org/2000/svg"><a href="&#106;avascript:x()"/></svg>',
                 '<!DOCTYPE svg [<!ENTITY e "x">]><svg>&e;</svg>', '<svg><style>*{}</style></svg>',
-                '<svg><image href="https://example.com/x.png"/></svg>', 'not xml at all <']:
+                '<svg><image href="https://example.com/x.png"/></svg>', 'not xml at all <',
+                '<svg><rect style="fill:red"/></svg>', '<svg><rect fill="url(https://example.com/x)"/></svg>']:
         with tempfile.TemporaryDirectory() as root:
             course = make_course(root)
             (course / "diagrams").mkdir()
@@ -88,9 +89,19 @@ def test_unsafe_course_files_fail_the_build():
             pass
 
 
+def test_published_svg_is_rebuilt_from_the_checked_tree():
+    svg = ('<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg">'
+           '<?xml-stylesheet href="https://example.com/x.css"?><!-- note -->'
+           '<line marker-end="url(#a)"/><text>R1 000 − R310</text></svg>')
+    out = build.clean_svg(svg, "test.svg")
+    assert "<?" not in out and "<!--" not in out and "example.com" not in out
+    assert 'marker-end="url(#a)"' in out and "R1 000 − R310" in out
+    assert out.startswith('<svg xmlns="http://www.w3.org/2000/svg"')
+
+
 def test_real_diagrams_are_allowed():
     for svg in pathlib.Path(__file__).parent.parent.glob("south-african-tax/diagrams/*.svg"):
-        build.check_svg(svg.read_text(), svg)
+        build.clean_svg(svg.read_text(), svg)
 
 
 def test_chat_rules_drop_terminal_only_parts():
@@ -128,6 +139,7 @@ if __name__ == "__main__":
     test_chat_rules_drop_terminal_only_parts()
     test_diagrams_published_with_absolute_links()
     test_unsafe_course_files_fail_the_build()
+    test_published_svg_is_rebuilt_from_the_checked_tree()
     test_real_diagrams_are_allowed()
     test_is_course()
     test_start_page_lists_courses()
