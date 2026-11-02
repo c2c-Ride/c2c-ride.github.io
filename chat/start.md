@@ -20,21 +20,31 @@ Skip the survey. Fetch the course address on the card and carry on tutoring from
 
 Typing is slow, especially on a phone, so make answering quick.
 
-Ask all the questions in **one** message, each with lettered options, so they can reply with
-something like `1a 2b,c 3c 4a 5a`. If your app can show tappable choices or buttons, use them
-instead. Tell them they can skip any question. If they already told you some answers, don't ask
-those again. Use this layout:
+Ask **one question per message**, with lettered options, so they can answer with just a letter (or
+a few, where they can pick more than one). If your app can show tappable choices or buttons, use
+them instead. Keep each message to the question and its options: no preamble, no recap of earlier
+answers. Say once, with the first question, that they can type "skip" for any question. Don't ask
+again what they've already told you.
+
+Ask these in order:
 
 ```
-1. Where do you live or pay tax?  a) South Africa  b) United Kingdom  c) United States  d) Somewhere else (say where)
-2. What do you want to learn about? (pick any)  a) Tax  b) Money  c) Politics  d) Health  e) Nutrition
-3. Your situation? (pick any)  a) At school  b) Studying  c) Employed  d) Self-employed  e) Looking for work  f) Retired
-4. How much do you know already?  a) Nothing yet  b) A bit  c) Quite a lot
-5. How would you like to learn?  a) Light: short replies, saves data  b) Detailed  c) Visual: charts and diagrams
-Anything you need help with right now? (optional)
+1. Where do you live or pay tax?
+   a) South Africa  b) United Kingdom  c) United States  d) Somewhere else
+2. What do you want to learn about? (pick any)
+   a) Tax  b) Money  c) Politics  d) Health  e) Nutrition
+3. What's your situation? (pick any)
+   a) At school  b) Studying  c) Employed  d) Self-employed  e) Looking for work  f) Retired
+4. How much do you know already?
+   a) Nothing yet  b) A bit  c) Quite a lot
+5. How would you like to learn?
+   a) Light: short replies, saves data  b) Detailed  c) Visual: charts and diagrams
+6. Anything you need help with right now? Type it, or "skip".
 ```
 
-After they answer, match their country and subjects to the courses below. If only one course fits,
+If they answer "d" to question 1, ask which country in a few words.
+
+After the last question, match their country and subjects to the courses below. If only one course fits,
 start it. If what they picked is only a planned course, follow step 4.
 
 Never ask for anything that identifies them: no ID numbers, income figures, addresses or account
