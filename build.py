@@ -2,6 +2,7 @@
 
 Usage: python3 build.py OUT_DIR
 """
+import html
 import json
 import pathlib
 import re
@@ -125,6 +126,24 @@ def course_pages(course_dir, name):
     return pages
 
 
+def html_edition(text):
+    """The same page as plain HTML: some chat apps' browsing tools (ChatGPT's) won't read text/markdown.
+    Links to other chat pages point at their HTML editions too."""
+    text = re.sub(rf"({re.escape(SITE)}/[\w/.-]+)\.md\b", r"\1.html", text)
+    title = html.escape(text.splitlines()[0].lstrip("# ").strip())
+    return ('<!doctype html>\n<html lang="en"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            f"<title>{title}</title></head>\n<body><pre style=\"white-space:pre-wrap;font:16px/1.5 system-ui,sans-serif;"
+            f'max-width:44rem;margin:2rem auto;padding:0 16px">{html.escape(text)}</pre></body></html>\n')
+
+
+def write_page(out, path, text):
+    (out / path).parent.mkdir(parents=True, exist_ok=True)
+    (out / path).write_text(text)
+    if path.endswith(".md"):
+        (out / (path[:-3] + ".html")).write_text(html_edition(text))
+
+
 def has_subject(repo):
     return not repo["archived"] and any(t.startswith("subject-") for t in repo["topics"])
 
@@ -157,9 +176,8 @@ def main(out):
             dest = pathlib.Path(tmp, c["name"])
             subprocess.run(["git", "-c", "core.symlinks=false", "clone", "-q", "--depth", "1", c["clone_url"], str(dest)], check=True)
             for path, text in course_pages(dest, c["name"]).items():
-                (out / path).parent.mkdir(parents=True, exist_ok=True)
-                (out / path).write_text(text)
-    (out / "start.md").write_text(start_page(courses, planned))
+                write_page(out, path, text)
+    write_page(out, "start.md", start_page(courses, planned))
     print(f"built start.md and {len(courses)} course(s) in {out}")
 
 
