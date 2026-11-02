@@ -51,6 +51,13 @@ def test_facts_for_lesson():
         pass
 
 
+def test_chat_rules_drop_terminal_only_parts():
+    rules = "# Rules\nKeep.\n<!-- terminal-only -->\nRead ../profile.md\n<!-- /terminal-only -->\nAlso keep.\n"
+    chat = build.chat_rules(rules)
+    assert "Keep." in chat and "Also keep." in chat
+    assert "profile.md" not in chat and "terminal-only" not in chat
+
+
 def test_is_course():
     assert build.is_course({"topics": ["subject-tax", "country-za"], "archived": False})
     assert not build.is_course({"topics": ["subject-tax"], "archived": True})
@@ -76,6 +83,7 @@ def test_start_page_lists_courses():
 if __name__ == "__main__":
     test_course_pages()
     test_facts_for_lesson()
+    test_chat_rules_drop_terminal_only_parts()
     test_is_course()
     test_start_page_lists_courses()
     print("ok")

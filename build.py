@@ -44,10 +44,15 @@ def facts_for(lesson_text, facts):
     return "\n\n".join([intro.strip(), *("## " + sec.strip() for sec in keep)]) + "\n"
 
 
+def chat_rules(rules):
+    """Drops the parts of a course's AGENTS.md marked as only for learners with files on a computer."""
+    return re.sub(r"\n?<!-- terminal-only -->.*?<!-- /terminal-only -->\n?", "\n", rules, flags=re.S)
+
+
 def course_pages(course_dir, name):
     """Returns {published path: text}: a small index, then one self-contained page per lesson."""
     course_dir = pathlib.Path(course_dir)
-    rules = (course_dir / "AGENTS.md").read_text().strip()
+    rules = chat_rules((course_dir / "AGENTS.md").read_text()).strip()
     facts = (course_dir / "facts.md").read_text().strip()
     lessons = sorted((course_dir / "lessons").glob("*.md"))
     paths = [f"{name}/{lesson.name}" for lesson in lessons]
