@@ -60,9 +60,15 @@ def read_safe(path, course_dir):
     return path.read_text()
 
 
-def check_svg(text, path):
-    """Allowlist check: refuses anything but plain drawing elements, any on* or *href attribute,
-    and any DOCTYPE or entity, so encoded tricks have nowhere to hide."""
+SAME_DOC_URL = re.compile(r"url\(#[\w-]+\)")
+ET.register_namespace("", "http://www.w3.org/2000/svg")
+
+
+def clean_svg(text, path):
+    """Allowlist check, then returns the SVG rebuilt from the parsed tree, so anything the parser
+    skips (processing instructions, comments) is never published. Refuses anything but plain
+    drawing elements, any DOCTYPE or entity, on*, *href and style attributes, and any url() that
+    points outside the diagram."""
     if re.search(r"<!DOCTYPE|<!ENTITY", text, re.I):
         raise ValueError(f"refusing to publish {path}: SVG has a DOCTYPE or entity")
     try:
@@ -73,16 +79,17 @@ def check_svg(text, path):
         tag = el.tag.split("}")[-1]
         if tag not in SVG_ELEMENTS:
             raise ValueError(f"refusing to publish {path}: <{tag}> is not an allowed SVG element")
-        for attr in el.attrib:
+        for attr, value in el.attrib.items():
             name = attr.split("}")[-1].lower()
-            if name.startswith("on") or "href" in name:
+            if name.startswith("on") or "href" in name or name == "style":
                 raise ValueError(f"refusing to publish {path}: attribute {name!r} is not allowed")
+            if "url(" in value.lower() and not SAME_DOC_URL.fullmatch(value.strip()):
+                raise ValueError(f"refusing to publish {path}: {name}={value!r} points outside the diagram")
+    return ET.tostring(root, encoding="unicode") + "\n"
 
 
 def read_svg(path, course_dir):
-    text = read_safe(path, course_dir)
-    check_svg(text, path)
-    return text
+    return clean_svg(read_safe(path, course_dir), path)
 
 
 def chat_rules(rules):
