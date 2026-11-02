@@ -51,6 +51,17 @@ def test_facts_for_lesson():
         pass
 
 
+def test_diagrams_published_with_absolute_links():
+    with tempfile.TemporaryDirectory() as root:
+        course = make_course(root)
+        (course / "diagrams").mkdir()
+        (course / "diagrams/brackets.svg").write_text("<svg/>")
+        (course / "lessons/01-first.md").write_text("# Lesson 1: First\n![Brackets](../diagrams/brackets.svg)\n")
+        pages = build.course_pages(course, "demo-tax")
+    assert pages["demo-tax/diagrams/brackets.svg"] == "<svg/>"
+    assert f"![Brackets]({SITE}/demo-tax/diagrams/brackets.svg)" in pages["demo-tax/01-first.md"]
+
+
 def test_chat_rules_drop_terminal_only_parts():
     rules = "# Rules\nKeep.\n<!-- terminal-only -->\nRead ../profile.md\n<!-- /terminal-only -->\nAlso keep.\n"
     chat = build.chat_rules(rules)
@@ -84,6 +95,7 @@ if __name__ == "__main__":
     test_course_pages()
     test_facts_for_lesson()
     test_chat_rules_drop_terminal_only_parts()
+    test_diagrams_published_with_absolute_links()
     test_is_course()
     test_start_page_lists_courses()
     print("ok")

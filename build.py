@@ -61,6 +61,8 @@ def course_pages(course_dir, name):
     index = (HERE / "chat/course-index.md").read_text().replace("{course}", name).replace(
         "{lessons}", "\n".join(f"- {lesson_title(l)}: {SITE}/{p}" for l, p in zip(lessons, paths)))
     pages = {f"{name}.md": index, f"{name}/facts.md": facts + "\n"}
+    for diagram in sorted((course_dir / "diagrams").glob("*.svg")):
+        pages[f"{name}/diagrams/{diagram.name}"] = diagram.read_text()
     for i, (lesson, path) in enumerate(zip(lessons, paths)):
         last = i == len(lessons) - 1
         next_url = f"{SITE}/{path}" if last else f"{SITE}/{paths[i + 1]}"
@@ -69,7 +71,7 @@ def course_pages(course_dir, name):
         top = (header.replace("{course}", name).replace("{title}", lesson_title(lesson))
                .replace("{url}", f"{SITE}/{path}").replace("{next_url}", next_url).replace("{next}", nxt)
                .replace("{facts_url}", f"{SITE}/{name}/facts.md"))
-        text = lesson.read_text().strip()
+        text = lesson.read_text().strip().replace("](../diagrams/", f"]({SITE}/{name}/diagrams/")
         pages[path] = f"{top}{rules}\n\n---\n\n{facts_for(text, facts).strip()}\n\n---\n\n{text}\n"
     return pages
 
