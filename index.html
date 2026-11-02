@@ -36,6 +36,10 @@
   textarea { min-height: 9rem; }
   button { font: inherit; font-weight: 600; background: var(--accent); color: var(--bg); border: 0; border-radius: 6px; padding: .7rem 1.2rem; cursor: pointer; justify-self: start; }
   .hp { position: absolute; left: -9999px; }
+  pre code { white-space: pre-wrap; word-break: break-word; }
+  ol li { margin-bottom: .75rem; }
+  details { margin-top: 1.5rem; }
+  summary { cursor: pointer; font-weight: 600; }
   .small { font-size: .9rem; color: var(--muted); }
   footer { margin-top: 4rem; border-top: 1px solid var(--line); padding-top: 1rem; }
 </style>
@@ -53,11 +57,24 @@
   </div>
 
   <h2 id="start">Start learning</h2>
-  <p>You need <a href="https://git-scm.com/downloads">git</a> and an AI command-line tool such as <a href="https://claude.com/claude-code">Claude Code</a>, Codex or Gemini CLI.</p>
-  <pre><code>git clone https://github.com/things-they-dont-teach-you/enrol.git school
+  <p>All you need is an AI chat app, on your phone or computer: Claude, ChatGPT, Gemini or similar.</p>
+  <ol>
+    <li>Copy this message:
+      <pre><code id="prompt">Be my tutor. Please read https://things-they-dont-teach-you.github.io/start.md and follow its instructions.</code></pre>
+      <button type="button" data-copy="prompt">Copy message</button>
+    </li>
+    <li>Paste it into a new chat. The tutor asks a few questions, then starts your course.</li>
+    <li>When you stop, the tutor gives you a <strong>progress card</strong>. Save it in your notes app. Next time, paste the card into a new chat to carry on where you left off.</li>
+  </ol>
+  <p class="small">If the AI says it can't open the link, switch on web search or browsing in the app's settings.</p>
+
+  <details>
+    <summary>Prefer the terminal?</summary>
+    <p>With <a href="https://git-scm.com/downloads">git</a> and an AI command-line tool such as <a href="https://claude.com/claude-code">Claude Code</a>, Codex or Gemini CLI, your courses and progress are saved as files on your computer:</p>
+    <pre><code>git clone https://github.com/things-they-dont-teach-you/enrol.git school
 cd school
 claude</code></pre>
-  <p>Say hello. The assistant runs a short survey and sets up your courses.</p>
+  </details>
 
   <h2 id="courses">Courses</h2>
   <div class="cards">
@@ -110,5 +127,19 @@ claude</code></pre>
     · <a href="https://github.com/things-they-dont-teach-you">GitHub</a>
   </footer>
 </main>
+<script>
+  document.querySelectorAll("[data-copy]").forEach(button => {
+    button.addEventListener("click", async () => {
+      const text = document.getElementById(button.dataset.copy).textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        button.textContent = "Copied";
+      } catch {
+        getSelection().selectAllChildren(document.getElementById(button.dataset.copy));
+        button.textContent = "Selected: copy it now";
+      }
+    });
+  });
+</script>
 </body>
 </html>
