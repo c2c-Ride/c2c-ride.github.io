@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Things They Don't Teach You in School</title>
+<meta name="description" content="Free, AI-tutored courses on the practical things school skipped: tax, money, politics, health and nutrition.">
+<style>
+  :root {
+    --bg: #fbfaf7; --fg: #1d1d1b; --muted: #5d5c57; --line: #e3e0d8;
+    --card: #ffffff; --accent: #1f5f8b; --warn-bg: #fff4d6; --warn-fg: #5c4300;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161614; --fg: #ecebe6; --muted: #a8a69f; --line: #34332f;
+      --card: #1f1f1c; --accent: #7cb7e0; --warn-bg: #3a2f10; --warn-fg: #f5dc9a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 44rem; margin: 0 auto; padding: 0 16px 4rem; }
+  header { padding: 4rem 0 2rem; }
+  h1 { font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1.15; margin: 0 0 1rem; }
+  h2 { margin-top: 3rem; font-size: 1.4rem; }
+  p.lead { font-size: 1.15rem; color: var(--muted); margin: 0; }
+  a { color: var(--accent); }
+  .warn { background: var(--warn-bg); color: var(--warn-fg); border-radius: 8px; padding: 1rem 1.25rem; margin: 1.5rem 0; }
+  pre { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem; overflow-x: auto; font-size: 0.9rem; }
+  .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem; }
+  .card h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
+  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+  form { display: grid; gap: 1rem; }
+  label { display: grid; gap: .3rem; font-weight: 600; font-size: .95rem; }
+  input, select, textarea { font: inherit; font-weight: 400; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: .6rem .7rem; width: 100%; }
+  textarea { min-height: 9rem; }
+  button { font: inherit; font-weight: 600; background: var(--accent); color: var(--bg); border: 0; border-radius: 6px; padding: .7rem 1.2rem; cursor: pointer; justify-self: start; }
+  .hp { position: absolute; left: -9999px; }
+  .small { font-size: .9rem; color: var(--muted); }
+  footer { margin-top: 4rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Things They Don't Teach You in School</h1>
+    <p class="lead">Free courses on the practical stuff school skipped: tax, money, politics, health and nutrition. Your AI assistant asks what you need, downloads only the courses for your country, and tutors you at your own pace.</p>
+  </header>
+
+  <div class="warn" role="note">
+    <strong>Under development. Please don't rely on these courses yet.</strong>
+    They haven't been reviewed by qualified professionals and may contain mistakes.
+  </div>
+
+  <h2 id="start">Start learning</h2>
+  <p>You need <a href="https://git-scm.com/downloads">git</a> and an AI command-line tool such as <a href="https://claude.com/claude-code">Claude Code</a>, Codex or Gemini CLI.</p>
+  <pre><code>git clone https://github.com/things-they-dont-teach-you/enrol.git school
+cd school
+claude</code></pre>
+  <p>Say hello. The assistant runs a short survey and sets up your courses.</p>
+
+  <h2 id="courses">Courses</h2>
+  <div class="cards">
+    <div class="card">
+      <h3><a href="https://github.com/things-they-dont-teach-you/south-african-tax">South African tax</a></h3>
+      <p>Brackets, your payslip, filing a return, deductions, freelance income, dealing with SARS. In development.</p>
+    </div>
+  </div>
+  <p class="small">Missing something? <a href="https://github.com/things-they-dont-teach-you/enrol/issues/new?template=request-course.yml">Request a course</a>.</p>
+
+  <h2 id="contribute">Help build it</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Professionals</h3>
+      <p>Tax practitioners, financial advisers, dietitians, doctors: <a href="https://github.com/things-they-dont-teach-you/enrol/issues/new?template=volunteer-reviewer.yml">offer to review lessons</a> in your field, or use the form below.</p>
+    </div>
+    <div class="card">
+      <h3>Spotted a mistake?</h3>
+      <p><a href="https://github.com/things-they-dont-teach-you/south-african-tax/issues/new?template=fix-lesson.yml">Report it</a> with a link to the official source.</p>
+    </div>
+    <div class="card">
+      <h3>Write a course</h3>
+      <p>The <a href="https://github.com/things-they-dont-teach-you/staff-room">staff room</a> has the guide and a template. <a href="https://github.com/things-they-dont-teach-you/enrol/issues/new?template=propose-course.yml">Propose a course</a> first.</p>
+    </div>
+  </div>
+
+  <h2 id="contact">Contact us</h2>
+  <p>No GitHub account, or something you'd rather not post publicly? Send it here.</p>
+  <!-- ponytail: Formspree free tier (50 messages a month); replace FORM_ID with the id from formspree.io -->
+  <form action="https://formspree.io/f/FORM_ID" method="POST">
+    <label>Your name <input name="name" autocomplete="name" required></label>
+    <label>Your email <input type="email" name="email" autocomplete="email" required></label>
+    <label>What's it about?
+      <select name="topic" required>
+        <option>I'm a professional and can review lessons</option>
+        <option>A mistake or outdated information</option>
+        <option>A course I'd like to see</option>
+        <option>A course I'd like to write</option>
+        <option>Something else</option>
+      </select>
+    </label>
+    <label>Message <textarea name="message" required></textarea></label>
+    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">Send</button>
+    <p class="small">Please don't send ID numbers, tax numbers or account details.</p>
+  </form>
+
+  <footer class="small">
+    Not tax, financial, medical or legal advice. Always check official sources.
+    · <a href="https://github.com/things-they-dont-teach-you">GitHub</a>
+  </footer>
+</main>
+</body>
+</html>
