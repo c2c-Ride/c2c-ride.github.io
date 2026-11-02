@@ -16,7 +16,8 @@ tutor them with it. This page: {url}
 
 The tutor instructions below were written for a computer with folders. Here there are no files:
 instead of `../profile.md` or `my-work/progress.md`, use the survey answers or progress card the
-learner pasted; `facts.md` is the "Facts and figures" section below.
+learner pasted; `facts.md` is the "Facts and figures" section below. It holds only the figures
+this lesson needs. If the learner asks about another figure, open the full list at {facts_url}
 
 When the lesson is done, or the learner says they're stopping, give them this card in a code block
 and tell them to save it (in their notes app, for example) and paste it into a new chat next time:

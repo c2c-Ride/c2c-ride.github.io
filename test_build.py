@@ -19,7 +19,7 @@ def make_course(root):
 def test_course_pages():
     with tempfile.TemporaryDirectory() as root:
         pages = build.course_pages(make_course(root), "demo-tax")
-    assert set(pages) == {"demo-tax.md", "demo-tax/01-first.md", "demo-tax/02-second.md"}
+    assert set(pages) == {"demo-tax.md", "demo-tax/facts.md", "demo-tax/01-first.md", "demo-tax/02-second.md"}
 
     index = pages["demo-tax.md"]
     assert f"{SITE}/demo-tax/01-first.md" in index and f"{SITE}/demo-tax/02-second.md" in index
@@ -32,6 +32,23 @@ def test_course_pages():
     assert "# Lesson 2" not in first
     assert f"{SITE}/demo-tax/02-second.md" in first  # where the progress card sends them next
     assert "last lesson" in pages["demo-tax/02-second.md"]
+    assert pages["demo-tax/facts.md"].startswith("# Facts")
+
+
+FACTS = "# Facts\nIntro line.\n\n## Income tax brackets\n18%\n\n## Rebates\nR17 820\n\n## Filing season 2026\nJuly\n"
+
+
+def test_facts_for_lesson():
+    picked = build.facts_for("# Lesson\n<!-- facts: Income tax brackets; filing season -->\nText", FACTS)
+    assert "Intro line." in picked and "18%" in picked and "July" in picked
+    assert "R17 820" not in picked
+    assert build.facts_for("<!-- facts: none -->", FACTS).strip() == "# Facts\nIntro line."
+    assert build.facts_for("# Lesson without a facts line", FACTS) == FACTS
+    try:
+        build.facts_for("<!-- facts: Shoe sizes -->", FACTS)
+        raise AssertionError("an unknown section must fail the build")
+    except ValueError:
+        pass
 
 
 def test_is_course():
@@ -58,6 +75,7 @@ def test_start_page_lists_courses():
 
 if __name__ == "__main__":
     test_course_pages()
+    test_facts_for_lesson()
     test_is_course()
     test_start_page_lists_courses()
     print("ok")
