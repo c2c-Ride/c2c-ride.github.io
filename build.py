@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import urllib.request
+import xml.etree.ElementTree as ET
 
 ORG = "things-they-dont-teach-you"
 SITE = f"https://{ORG}.github.io"
@@ -44,7 +45,10 @@ def facts_for(lesson_text, facts):
     return "\n\n".join([intro.strip(), *("## " + sec.strip() for sec in keep)]) + "\n"
 
 
-UNSAFE_SVG = re.compile(r"<script|<foreignObject|<iframe|\son\w+\s*=|javascript:", re.I)
+# Diagrams are served from the site's own origin, so only plain drawing elements are allowed:
+# nothing that can run script, load other content, or link anywhere.
+SVG_ELEMENTS = {"svg", "title", "desc", "defs", "marker", "g", "path", "rect", "line", "polyline",
+                "polygon", "circle", "ellipse", "text", "tspan"}
 
 
 def read_safe(path, course_dir):
@@ -56,11 +60,28 @@ def read_safe(path, course_dir):
     return path.read_text()
 
 
+def check_svg(text, path):
+    """Allowlist check: refuses anything but plain drawing elements, any on* or *href attribute,
+    and any DOCTYPE or entity, so encoded tricks have nowhere to hide."""
+    if re.search(r"<!DOCTYPE|<!ENTITY", text, re.I):
+        raise ValueError(f"refusing to publish {path}: SVG has a DOCTYPE or entity")
+    try:
+        root = ET.fromstring(text)
+    except ET.ParseError as e:
+        raise ValueError(f"refusing to publish {path}: not valid XML ({e})")
+    for el in root.iter():
+        tag = el.tag.split("}")[-1]
+        if tag not in SVG_ELEMENTS:
+            raise ValueError(f"refusing to publish {path}: <{tag}> is not an allowed SVG element")
+        for attr in el.attrib:
+            name = attr.split("}")[-1].lower()
+            if name.startswith("on") or "href" in name:
+                raise ValueError(f"refusing to publish {path}: attribute {name!r} is not allowed")
+
+
 def read_svg(path, course_dir):
-    """SVGs are served from the site's own origin, so anything that can run script is refused."""
     text = read_safe(path, course_dir)
-    if UNSAFE_SVG.search(text):
-        raise ValueError(f"refusing to publish {path}: SVG contains script, event handlers or embedded HTML")
+    check_svg(text, path)
     return text
 
 

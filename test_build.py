@@ -64,7 +64,10 @@ def test_diagrams_published_with_absolute_links():
 
 def test_unsafe_course_files_fail_the_build():
     for svg in ['<svg><script>alert(1)</script></svg>', '<svg onload="x()"/>',
-                '<svg><a href="javascript:x()"/></svg>', '<svg><foreignObject/></svg>']:
+                '<svg><a href="javascript:x()"/></svg>', '<svg><foreignObject/></svg>',
+                '<svg/onload="x()"/>', '<svg xmlns="http://www.w3.org/2000/svg"><a href="&#106;avascript:x()"/></svg>',
+                '<!DOCTYPE svg [<!ENTITY e "x">]><svg>&e;</svg>', '<svg><style>*{}</style></svg>',
+                '<svg><image href="https://example.com/x.png"/></svg>', 'not xml at all <']:
         with tempfile.TemporaryDirectory() as root:
             course = make_course(root)
             (course / "diagrams").mkdir()
@@ -83,6 +86,11 @@ def test_unsafe_course_files_fail_the_build():
             raise AssertionError("symlink followed")
         except ValueError:
             pass
+
+
+def test_real_diagrams_are_allowed():
+    for svg in pathlib.Path(__file__).parent.parent.glob("south-african-tax/diagrams/*.svg"):
+        build.check_svg(svg.read_text(), svg)
 
 
 def test_chat_rules_drop_terminal_only_parts():
@@ -120,6 +128,7 @@ if __name__ == "__main__":
     test_chat_rules_drop_terminal_only_parts()
     test_diagrams_published_with_absolute_links()
     test_unsafe_course_files_fail_the_build()
+    test_real_diagrams_are_allowed()
     test_is_course()
     test_start_page_lists_courses()
     print("ok")
