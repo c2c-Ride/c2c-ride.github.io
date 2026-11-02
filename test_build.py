@@ -68,7 +68,9 @@ def test_unsafe_course_files_fail_the_build():
                 '<svg/onload="x()"/>', '<svg xmlns="http://www.w3.org/2000/svg"><a href="&#106;avascript:x()"/></svg>',
                 '<!DOCTYPE svg [<!ENTITY e "x">]><svg>&e;</svg>', '<svg><style>*{}</style></svg>',
                 '<svg><image href="https://example.com/x.png"/></svg>', 'not xml at all <',
-                '<svg><rect style="fill:red"/></svg>', '<svg><rect fill="url(https://example.com/x)"/></svg>']:
+                '<svg><rect style="fill:red"/></svg>', '<svg><rect fill="url(https://example.com/x)"/></svg>',
+                '<svg><rect fill="\\75 rl(https://example.com/x)"/></svg>', '<svg><rect fill="u\\rl(x)"/></svg>',
+                '<svg><rect fill="image(https://example.com/x)"/></svg>']:
         with tempfile.TemporaryDirectory() as root:
             course = make_course(root)
             (course / "diagrams").mkdir()
