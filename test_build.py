@@ -68,7 +68,9 @@ def test_unsafe_course_files_fail_the_build():
                 '<svg/onload="x()"/>', '<svg xmlns="http://www.w3.org/2000/svg"><a href="&#106;avascript:x()"/></svg>',
                 '<!DOCTYPE svg [<!ENTITY e "x">]><svg>&e;</svg>', '<svg><style>*{}</style></svg>',
                 '<svg><image href="https://example.com/x.png"/></svg>', 'not xml at all <',
-                '<svg><rect style="fill:red"/></svg>', '<svg><rect fill="url(https://example.com/x)"/></svg>']:
+                '<svg><rect style="fill:red"/></svg>', '<svg><rect fill="url(https://example.com/x)"/></svg>',
+                '<svg><rect fill="\\75 rl(https://example.com/x)"/></svg>', '<svg><rect fill="u\\rl(x)"/></svg>',
+                '<svg><rect fill="image(https://example.com/x)"/></svg>']:
         with tempfile.TemporaryDirectory() as root:
             course = make_course(root)
             (course / "diagrams").mkdir()
@@ -111,6 +113,15 @@ def test_chat_rules_drop_terminal_only_parts():
     assert "profile.md" not in chat and "terminal-only" not in chat
 
 
+def test_html_edition():
+    page = build.html_edition("# Start <here>\nGo to https://things-they-dont-teach-you.github.io/demo-tax/01-first.md now.\n"
+                              "Diagram: https://things-they-dont-teach-you.github.io/demo-tax/diagrams/b.svg")
+    assert page.startswith("<!doctype html>")
+    assert "<title>Start &lt;here&gt;</title>" in page and "# Start &lt;here&gt;" in page
+    assert f"{SITE}/demo-tax/01-first.html" in page and "01-first.md" not in page
+    assert f"{SITE}/demo-tax/diagrams/b.svg" in page
+
+
 def test_is_course():
     assert build.is_course({"topics": ["subject-tax", "country-za"], "archived": False})
     assert not build.is_course({"topics": ["subject-tax"], "archived": True})
@@ -141,6 +152,7 @@ if __name__ == "__main__":
     test_unsafe_course_files_fail_the_build()
     test_published_svg_is_rebuilt_from_the_checked_tree()
     test_real_diagrams_are_allowed()
+    test_html_edition()
     test_is_course()
     test_start_page_lists_courses()
     print("ok")
