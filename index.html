@@ -54,7 +54,7 @@
 <main>
   <header>
     <h1>Things They Don't Teach You in School</h1>
-    <p class="lead">Free courses on the practical stuff school skipped: tax, money, politics, health and nutrition. Your AI assistant asks what you need, downloads only the courses for your country, and tutors you at your own pace.</p>
+    <p class="lead">Free courses on the practical stuff school skipped: tax, money, politics, health and nutrition. Starting with South Africa. Your AI assistant asks what you need, downloads only the courses for your country, and tutors you at your own pace.</p>
   </header>
 
   <div class="warn" role="note">
@@ -69,7 +69,7 @@
       <form id="survey" class="survey">
         <fieldset data-label="Where I live or pay tax">
           <legend>Where do you live, work or pay tax?</legend>
-          <label><input type="checkbox" value="South Africa"> South Africa</label>
+          <label><input type="checkbox" value="South Africa" checked> South Africa</label>
           <label><input type="checkbox" value="United Kingdom"> United Kingdom</label>
           <label><input type="checkbox" value="United States"> United States</label>
           <label class="other">Somewhere else <input type="text" placeholder="Country"></label>
@@ -106,7 +106,7 @@
       <pre><code id="prompt">Be my tutor. Please read https://things-they-dont-teach-you.github.io/start.md and follow its instructions.</code></pre>
       <button type="button" data-copy="prompt">Copy message</button>
     </li>
-    <li>Paste it into a new chat. The tutor starts your course, asking only what you didn't tick.</li>
+    <li>Paste it into a new chat. The tutor starts your course, asking only what you didn't tick. Each lesson is short and works on a free AI plan.</li>
     <li>When you stop, the tutor gives you a <strong>progress card</strong>. Save it in your notes app. Next time, paste the card into a new chat to carry on where you left off.</li>
   </ol>
   <p class="small">If the AI says it can't open the link, switch on web search or browsing in the app's settings.</p>
@@ -188,6 +188,7 @@ claude</code></pre>
     document.querySelector("[data-copy=prompt]").textContent = "Copy message";
   }
   survey.addEventListener("input", updatePrompt);
+  updatePrompt();
   survey.addEventListener("submit", e => e.preventDefault());
 
   document.querySelectorAll("[data-copy]").forEach(button => {
