@@ -62,6 +62,29 @@ def test_diagrams_published_with_absolute_links():
     assert f"![Brackets]({SITE}/demo-tax/diagrams/brackets.svg)" in pages["demo-tax/01-first.md"]
 
 
+def test_unsafe_course_files_fail_the_build():
+    for svg in ['<svg><script>alert(1)</script></svg>', '<svg onload="x()"/>',
+                '<svg><a href="javascript:x()"/></svg>', '<svg><foreignObject/></svg>']:
+        with tempfile.TemporaryDirectory() as root:
+            course = make_course(root)
+            (course / "diagrams").mkdir()
+            (course / "diagrams/bad.svg").write_text(svg)
+            try:
+                build.course_pages(course, "demo-tax")
+                raise AssertionError(f"unsafe SVG published: {svg}")
+            except ValueError:
+                pass
+    with tempfile.TemporaryDirectory() as root, tempfile.NamedTemporaryFile() as secret:
+        course = make_course(root)
+        (course / "facts.md").unlink()
+        (course / "facts.md").symlink_to(secret.name)
+        try:
+            build.course_pages(course, "demo-tax")
+            raise AssertionError("symlink followed")
+        except ValueError:
+            pass
+
+
 def test_chat_rules_drop_terminal_only_parts():
     rules = "# Rules\nKeep.\n<!-- terminal-only -->\nRead ../profile.md\n<!-- /terminal-only -->\nAlso keep.\n"
     chat = build.chat_rules(rules)
@@ -96,6 +119,7 @@ if __name__ == "__main__":
     test_facts_for_lesson()
     test_chat_rules_drop_terminal_only_parts()
     test_diagrams_published_with_absolute_links()
+    test_unsafe_course_files_fail_the_build()
     test_is_course()
     test_start_page_lists_courses()
     print("ok")

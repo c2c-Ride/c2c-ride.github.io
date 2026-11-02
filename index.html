@@ -39,12 +39,6 @@
   pre code { white-space: pre-wrap; word-break: break-word; }
   ol li { margin-bottom: .75rem; }
   details { margin-top: 1.5rem; }
-  .survey { gap: .75rem; margin-top: .75rem; }
-  fieldset { border: 1px solid var(--line); border-radius: 8px; padding: .5rem 1rem .75rem; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
-  legend { font-weight: 600; padding: 0 .25rem; }
-  fieldset label { display: flex; align-items: center; gap: .4rem; font-weight: 400; }
-  fieldset input[type=checkbox], fieldset input[type=radio] { width: 1.15rem; height: 1.15rem; margin: 0; }
-  fieldset label.other input { width: 10rem; }
   summary { cursor: pointer; font-weight: 600; }
   .small { font-size: .9rem; color: var(--muted); }
   footer { margin-top: 4rem; border-top: 1px solid var(--line); padding-top: 1rem; }
@@ -65,54 +59,11 @@
   <h2 id="start">Start learning</h2>
   <p>All you need is an AI chat app, on your phone or computer: Claude, ChatGPT, Gemini or similar.</p>
   <ol>
-    <li>Tick what fits you. Skip anything you like.
-      <form id="survey" class="survey">
-        <fieldset data-label="Where I live or pay tax">
-          <legend>Where do you live, work or pay tax?</legend>
-          <label><input type="checkbox" value="South Africa" checked> South Africa</label>
-          <label><input type="checkbox" value="United Kingdom"> United Kingdom</label>
-          <label><input type="checkbox" value="United States"> United States</label>
-          <label class="other">Somewhere else <input type="text" placeholder="Country"></label>
-        </fieldset>
-        <fieldset data-label="I want to learn about">
-          <legend>What do you want to learn about?</legend>
-          <label><input type="checkbox" value="tax"> Tax</label>
-          <label><input type="checkbox" value="money"> Money and budgeting</label>
-          <label><input type="checkbox" value="politics"> Politics and voting</label>
-          <label><input type="checkbox" value="health"> Health</label>
-          <label><input type="checkbox" value="nutrition"> Nutrition</label>
-        </fieldset>
-        <fieldset data-label="My situation">
-          <legend>What's your situation?</legend>
-          <label><input type="checkbox" value="at school"> At school</label>
-          <label><input type="checkbox" value="studying"> Studying</label>
-          <label><input type="checkbox" value="employed"> Employed</label>
-          <label><input type="checkbox" value="self-employed or freelancing"> Self-employed or freelancing</label>
-          <label><input type="checkbox" value="looking for work"> Looking for work</label>
-          <label><input type="checkbox" value="retired"> Retired</label>
-        </fieldset>
-        <fieldset data-label="How much I know">
-          <legend>How much do you know already?</legend>
-          <label><input type="radio" name="level" value="nothing yet"> Nothing yet</label>
-          <label><input type="radio" name="level" value="a bit"> A bit</label>
-          <label><input type="radio" name="level" value="quite a lot"> Quite a lot</label>
-        </fieldset>
-        <fieldset data-label="Style">
-          <legend>How would you like to learn?</legend>
-          <label><input type="radio" name="style" value="Light" checked> Light: short replies, saves data</label>
-          <label><input type="radio" name="style" value="Detailed"> Detailed: fuller explanations</label>
-          <label><input type="radio" name="style" value="Visual"> Visual: charts and diagrams, best on a computer</label>
-        </fieldset>
-        <label class="need">Anything you need help with right now? (optional)
-          <input type="text" placeholder="e.g. I have to file my first tax return">
-        </label>
-      </form>
-    </li>
     <li>Copy this message:
       <pre><code id="prompt">Be my tutor. Please read https://things-they-dont-teach-you.github.io/start.md and follow its instructions.</code></pre>
       <button type="button" data-copy="prompt">Copy message</button>
     </li>
-    <li>Paste it into a new chat. The tutor starts your course, asking only what you didn't tick. Each lesson is short and works on a free AI plan.</li>
+    <li>Paste it into a new chat. The tutor asks a few quick multiple-choice questions (just reply with letters, like <code>1a 2b</code>), then starts your course. Each lesson is short and works on a free AI plan.</li>
     <li>When you stop, the tutor gives you a <strong>progress card</strong>. Save it in your notes app. Next time, paste the card into a new chat to carry on where you left off.</li>
   </ol>
   <p class="small">If the AI says it can't open the link, switch on web search or browsing in the app's settings.</p>
@@ -177,26 +128,6 @@ claude</code></pre>
   </footer>
 </main>
 <script>
-  const survey = document.getElementById("survey");
-  const prompt = document.getElementById("prompt");
-  const base = prompt.textContent;
-  function updatePrompt() {
-    const lines = [];
-    survey.querySelectorAll("fieldset").forEach(set => {
-      const values = [...set.querySelectorAll("input:checked")].map(i => i.value);
-      const other = set.querySelector("input[type=text]");
-      if (other && other.value.trim()) values.push(other.value.trim());
-      if (values.length) lines.push(`${set.dataset.label}: ${values.join(", ")}`);
-    });
-    const need = survey.querySelector(".need input").value.trim();
-    if (need) lines.push(`What I need right now: ${need}`);
-    prompt.textContent = lines.length ? `${base}\n\nMy survey answers:\n${lines.join("\n")}` : base;
-    document.querySelector("[data-copy=prompt]").textContent = "Copy message";
-  }
-  survey.addEventListener("input", updatePrompt);
-  updatePrompt();
-  survey.addEventListener("submit", e => e.preventDefault());
-
   document.querySelectorAll("[data-copy]").forEach(button => {
     button.addEventListener("click", async () => {
       const text = document.getElementById(button.dataset.copy).textContent;

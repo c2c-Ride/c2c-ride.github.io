@@ -19,8 +19,8 @@ def course_url(name):
     return f"{SITE}/{name}.md"
 
 
-def lesson_title(path):
-    return path.read_text().splitlines()[0].lstrip("# ").strip()
+def lesson_title(text):
+    return text.splitlines()[0].lstrip("# ").strip()
 
 
 def facts_for(lesson_text, facts):
@@ -44,6 +44,26 @@ def facts_for(lesson_text, facts):
     return "\n\n".join([intro.strip(), *("## " + sec.strip() for sec in keep)]) + "\n"
 
 
+UNSAFE_SVG = re.compile(r"<script|<foreignObject|<iframe|\son\w+\s*=|javascript:", re.I)
+
+
+def read_safe(path, course_dir):
+    """Reads a course file, refusing symlinks or anything outside the course, which a contributor's
+    PR could otherwise use to publish files from the build machine."""
+    path = pathlib.Path(path)
+    if path.is_symlink() or not path.resolve().is_relative_to(pathlib.Path(course_dir).resolve()):
+        raise ValueError(f"refusing to publish {path}: not a plain file inside the course")
+    return path.read_text()
+
+
+def read_svg(path, course_dir):
+    """SVGs are served from the site's own origin, so anything that can run script is refused."""
+    text = read_safe(path, course_dir)
+    if UNSAFE_SVG.search(text):
+        raise ValueError(f"refusing to publish {path}: SVG contains script, event handlers or embedded HTML")
+    return text
+
+
 def chat_rules(rules):
     """Drops the parts of a course's AGENTS.md marked as only for learners with files on a computer."""
     return re.sub(r"\n?<!-- terminal-only -->.*?<!-- /terminal-only -->\n?", "\n", rules, flags=re.S)
@@ -52,26 +72,27 @@ def chat_rules(rules):
 def course_pages(course_dir, name):
     """Returns {published path: text}: a small index, then one self-contained page per lesson."""
     course_dir = pathlib.Path(course_dir)
-    rules = chat_rules((course_dir / "AGENTS.md").read_text()).strip()
-    facts = (course_dir / "facts.md").read_text().strip()
+    rules = chat_rules(read_safe(course_dir / "AGENTS.md", course_dir)).strip()
+    facts = read_safe(course_dir / "facts.md", course_dir).strip()
     lessons = sorted((course_dir / "lessons").glob("*.md"))
+    texts = {lesson: read_safe(lesson, course_dir).strip() for lesson in lessons}
     paths = [f"{name}/{lesson.name}" for lesson in lessons]
     header = (HERE / "chat/lesson-header.md").read_text()
 
     index = (HERE / "chat/course-index.md").read_text().replace("{course}", name).replace(
-        "{lessons}", "\n".join(f"- {lesson_title(l)}: {SITE}/{p}" for l, p in zip(lessons, paths)))
+        "{lessons}", "\n".join(f"- {lesson_title(texts[l])}: {SITE}/{p}" for l, p in zip(lessons, paths)))
     pages = {f"{name}.md": index, f"{name}/facts.md": facts + "\n"}
     for diagram in sorted((course_dir / "diagrams").glob("*.svg")):
-        pages[f"{name}/diagrams/{diagram.name}"] = diagram.read_text()
+        pages[f"{name}/diagrams/{diagram.name}"] = read_svg(diagram, course_dir)
     for i, (lesson, path) in enumerate(zip(lessons, paths)):
         last = i == len(lessons) - 1
         next_url = f"{SITE}/{path}" if last else f"{SITE}/{paths[i + 1]}"
         nxt = ("this is the last lesson of the course; congratulate them, and suggest another course "
-               f"from {SITE}/start.md") if last else f"{lesson_title(lessons[i + 1])}, at {next_url}"
-        top = (header.replace("{course}", name).replace("{title}", lesson_title(lesson))
+               f"from {SITE}/start.md") if last else f"{lesson_title(texts[lessons[i + 1]])}, at {next_url}"
+        top = (header.replace("{course}", name).replace("{title}", lesson_title(texts[lesson]))
                .replace("{url}", f"{SITE}/{path}").replace("{next_url}", next_url).replace("{next}", nxt)
                .replace("{facts_url}", f"{SITE}/{name}/facts.md"))
-        text = lesson.read_text().strip().replace("](../diagrams/", f"]({SITE}/{name}/diagrams/")
+        text = texts[lesson].replace("](../diagrams/", f"]({SITE}/{name}/diagrams/")
         pages[path] = f"{top}{rules}\n\n---\n\n{facts_for(text, facts).strip()}\n\n---\n\n{text}\n"
     return pages
 
@@ -106,7 +127,7 @@ def main(out):
     with tempfile.TemporaryDirectory() as tmp:
         for c in courses:
             dest = pathlib.Path(tmp, c["name"])
-            subprocess.run(["git", "clone", "-q", "--depth", "1", c["clone_url"], str(dest)], check=True)
+            subprocess.run(["git", "-c", "core.symlinks=false", "clone", "-q", "--depth", "1", c["clone_url"], str(dest)], check=True)
             for path, text in course_pages(dest, c["name"]).items():
                 (out / path).parent.mkdir(parents=True, exist_ok=True)
                 (out / path).write_text(text)

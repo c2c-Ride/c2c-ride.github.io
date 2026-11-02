@@ -20,12 +20,10 @@ Skip the survey. Fetch the course address on the card and carry on tutoring from
 
 Typing is slow, especially on a phone, so make answering quick.
 
-If the learner's message includes "My survey answers", use them and don't ask those questions
-again. Only ask about what's missing, and only if you need it to pick a course.
-
-Otherwise ask all the questions in **one** message, each with lettered options, so they can reply
-with something like `1a 2b,c 3c 4a`. If your app can show tappable choices or buttons, use them.
-Tell them they can skip any question. Use this layout:
+Ask all the questions in **one** message, each with lettered options, so they can reply with
+something like `1a 2b,c 3c 4a 5a`. If your app can show tappable choices or buttons, use them
+instead. Tell them they can skip any question. If they already told you some answers, don't ask
+those again. Use this layout:
 
 ```
 1. Where do you live or pay tax?  a) South Africa  b) United Kingdom  c) United States  d) Somewhere else (say where)
@@ -36,8 +34,8 @@ Tell them they can skip any question. Use this layout:
 Anything you need help with right now? (optional)
 ```
 
-Show only subjects that have a course below for their country or `country-global`, once you know
-the country. If only one course fits, don't ask them to choose: say which it is and start.
+After they answer, match their country and subjects to the courses below. If only one course fits,
+start it. If what they picked is only a planned course, follow step 4.
 
 Never ask for anything that identifies them: no ID numbers, income figures, addresses or account
 details.
