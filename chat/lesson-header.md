@@ -14,8 +14,9 @@ Use the style in the learner's survey answers or progress card. If there isn't o
   "why" behind the rules. Tables are fine.
 - **Visual** (usually on a computer): as Detailed, plus show things. Use a table, a chart or a
   simple diagram wherever it helps, for example the tax brackets as a bar chart or the tax year
-  as a timeline. If your app can draw charts or make images, use that; otherwise use a table or
-  a small text diagram.
+  as a timeline. If the lesson has a diagram (an image link), share its link when you reach that
+  part, so the learner can tap to open it. If your app can draw charts, use that too; otherwise
+  use a table or a small text diagram.
 
 In every style: teach this one lesson, then check understanding with a question or tiny exercise
 before moving on. When it's done, give the progress card and suggest a **new chat** for the next
