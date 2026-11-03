@@ -1,145 +1,148 @@
-<!doctype html>
+Here is a complete, SEO-optimized HTML document for the JEV_sees end-user guide. It uses clean typography, responsive spacing, and a focused layout to walk non-technical Windows users through downloading the application from the provided GitHub link.
+```html
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Things They Don't Teach You in School</title>
-<meta name="description" content="Free, AI-tutored courses on the practical things school skipped: tax, money, politics, health and nutrition.">
-<style>
-  :root {
-    --bg: #fbfaf7; --fg: #1d1d1b; --muted: #5d5c57; --line: #e3e0d8;
-    --card: #ffffff; --accent: #1f5f8b; --warn-bg: #fff4d6; --warn-fg: #5c4300;
+<title>JEV_sees - Real-Time Visual Decisions from Any Camera</title>
+<meta name="description" content="JEV_sees turns ordinary RGB, video, and RGB-D cameras into a real-time visual reasoning system for object detection, tracking, and robotics. Simple Windows download guide for non-technical users.">
+<meta name="keywords" content="computer-vision, jev, multimodal-ai, object-detection, object-tracking, python, real-time-ai, rgbd, robotics, typesafe-ai, visual-reasoning, yolo">
+<meta name="author" content="JEV_sees">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://github.com/c2c-Ride/JEV_sees">
+<meta property="og:type" content="website">
+<meta property="og:title" content="JEV_sees - Real-Time Visual Decisions from Any Camera">
+<meta property="og:description" content="Eyes are All JEV Needs. Get real-time visual decisions from RGB, video, and RGB-D cameras on Windows. Download and get started in minutes.">
+<meta property="og:url" content="https://github.com/c2c-Ride/JEV_sees">
+<meta property="og:image" content="https://github.com/c2c-Ride/JEV_sees/raw/main/banner.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="JEV_sees - Real-Time Visual Decisions from Any Camera">
+<meta name="twitter:description" content="Turn any camera into a real-time visual reasoning tool. Object detection, tracking, and RGB-D support for Windows users.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "JEV_sees",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Windows",
+  "description": "Eyes are All JEV Needs - real time visual decisions from RGB, video and RGB-D cameras.",
+  "url": "https://github.com/c2c-Ride/JEV_sees",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #161614; --fg: #ecebe6; --muted: #a8a69f; --line: #34332f;
-      --card: #1f1f1c; --accent: #7cb7e0; --warn-bg: #3a2f10; --warn-fg: #f5dc9a;
-    }
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  main { max-width: 44rem; margin: 0 auto; padding: 0 16px 4rem; }
-  header { padding: 4rem 0 2rem; }
-  h1 { font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1.15; margin: 0 0 1rem; }
-  h2 { margin-top: 3rem; font-size: 1.4rem; }
-  p.lead { font-size: 1.15rem; color: var(--muted); margin: 0; }
-  a { color: var(--accent); }
-  .warn { background: var(--warn-bg); color: var(--warn-fg); border-radius: 8px; padding: 1rem 1.25rem; margin: 1.5rem 0; }
-  pre { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem; overflow-x: auto; font-size: 0.9rem; }
-  .cards { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 1rem 1.25rem; }
-  .card h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
-  .card p { margin: 0; color: var(--muted); font-size: .95rem; }
-  form { display: grid; gap: 1rem; }
-  label { display: grid; gap: .3rem; font-weight: 600; font-size: .95rem; }
-  input, select, textarea { font: inherit; font-weight: 400; color: var(--fg); background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: .6rem .7rem; width: 100%; }
-  textarea { min-height: 9rem; }
-  button { font: inherit; font-weight: 600; background: var(--accent); color: var(--bg); border: 0; border-radius: 6px; padding: .7rem 1.2rem; cursor: pointer; justify-self: start; }
-  .hp { position: absolute; left: -9999px; }
-  pre code { white-space: pre-wrap; word-break: break-word; }
-  ol li { margin-bottom: .75rem; }
-  details { margin-top: 1.5rem; }
-  summary { cursor: pointer; font-weight: 600; }
-  .small { font-size: .9rem; color: var(--muted); }
-  footer { margin-top: 4rem; border-top: 1px solid var(--line); padding-top: 1rem; }
-</style>
+}
+</script>
 </head>
-<body>
-<main>
-  <header>
-    <h1>Things They Don't Teach You in School</h1>
-    <p class="lead">Free courses on the practical stuff school skipped: tax, money, politics, health and nutrition. Your AI assistant asks what you need, finds the courses for your country, and tutors you at your own pace.</p>
+<body style="margin:0; padding:0; background:#f4f6fb; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#1f2937; line-height:1.7; -webkit-font-smoothing:antialiased;">
+
+<div style="max-width:900px; margin:0 auto; padding:24px 20px 60px 20px;">
+
+  <header style="background:linear-gradient(135deg,#4f46e5 0%,#0ea5e9 100%); border-radius:20px; padding:44px 32px; box-shadow:0 10px 30px rgba(15,23,42,0.18); text-align:center; margin-bottom:32px;">
+    <h1 style="margin:0 0 14px 0; font-size:2.1rem; line-height:1.25; color:#ffffff; font-weight:800; letter-spacing:-0.5px;">👁️ JEV_sees - See, Understand, and React in Real Time</h1>
+    <p style="margin:0 auto 26px auto; max-width:640px; font-size:1.05rem; color:#e0e7ff;">Eyes are All JEV Needs. Turn any camera into a live visual decision-maker for detection, tracking, and robotics — no programming knowledge required.</p>
+    <a href="https://github.com/c2c-Ride/JEV_sees" style="display:inline-block; background:#f97316; color:#ffffff; font-size:1.1rem; font-weight:700; text-decoration:none; padding:16px 34px; border-radius:12px; box-shadow:0 6px 18px rgba(249,115,22,0.42); border:2px solid #fdba74;">⬇️ Get JEV_sees Now</a>
   </header>
 
-  <div class="warn" role="note">
-    <strong>Under development. Please don't rely on these courses yet.</strong>
-    They haven't been reviewed by qualified professionals and may contain mistakes.
-  </div>
+  <main>
 
-  <h2 id="start">Start learning</h2>
-  <p>All you need is an AI chat app, on your phone or computer: Claude, ChatGPT, Gemini or similar.</p>
-  <ol>
-    <li>Copy this message:
-      <pre><code id="prompt">Be my tutor. Please read https://things-they-dont-teach-you.github.io/start.html and follow its instructions.</code></pre>
-      <button type="button" data-copy="prompt">Copy message</button>
-    </li>
-    <li>Paste it into a new chat. The tutor asks a few quick multiple-choice questions (just reply with letters, like <code>1a 2b</code>), then starts your course. Each lesson is short and works on a free AI plan.</li>
-    <li>When you stop, the tutor gives you a <strong>progress card</strong>. Save it in your notes app. Next time, paste the card into a new chat to carry on where you left off.</li>
-  </ol>
-  <p class="small">If the AI says it can't open the link, switch on web search or browsing in the app's settings.</p>
+    <section style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">🔍 What Is JEV_sees?</h2>
+      <p style="margin:0 0 14px 0; font-size:1rem;">JEV_sees is a desktop application that gives your computer a pair of working eyes. Plug in a camera, point it at the world, and the software watches what is happening on screen and explains it back to you in plain, useful language.</p>
+      <p style="margin:0 0 14px 0; font-size:1rem;">Most camera software simply records a video. JEV_sees goes further. It looks at each frame, recognises the objects it sees, follows them as they move, and turns all of that into a running description of the scene. It is the difference between a security camera that films a delivery van and a system that tells you a delivery van has arrived and stopped by the gate.</p>
+      <p style="margin:0; font-size:1rem;">The software works with three kinds of cameras: standard RGB webcams, pre-recorded video files, and depth-sensing RGB-D cameras that measure distance as well as colour. If you already own a laptop with a built-in webcam, you already have everything you need to begin.</p>
+    </section>
 
-  <details>
-    <summary>Prefer the terminal?</summary>
-    <p>With <a href="https://git-scm.com/downloads">git</a> and an AI command-line tool such as <a href="https://claude.com/claude-code">Claude Code</a>, Codex or Gemini CLI, your courses and progress are saved as files on your computer:</p>
-    <pre><code>git clone https://github.com/things-they-dont-teach-you/enrol.git school
-cd school
-claude</code></pre>
-  </details>
+    <section style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">✨ What You Can Do With It</h2>
+      <ul style="margin:0; padding-left:22px; font-size:1rem;">
+        <li style="margin-bottom:12px;"><strong>Watch a live camera feed.</strong> Open a normal webcam and see labelled boxes appear around people, animals, vehicles, furniture, and hundreds of other everyday objects as they enter the frame.</li>
+        <li style="margin-bottom:12px;"><strong>Follow objects as they move.</strong> Once something is spotted, JEV_sees keeps track of it. If a person walks across your room, the label stays with them instead of jumping to a different person.</li>
+        <li style="margin-bottom:12px;"><strong>Analyse recorded footage.</strong> Point the application at a video file you already have and let it describe what happens from start to finish.</li>
+        <li style="margin-bottom:12px;"><strong>Measure real distance.</strong> With an RGB-D camera, the software knows how far away things are, not just what they are. That makes it useful for robots, drones, and automated machinery.</li>
+        <li style="margin-bottom:12px;"><strong>Get plain-language reasoning.</strong> Rather than dumping raw numbers on you, JEV_sees builds short sentences about the scene: what is present, where it is, and what changed since the last moment.</li>
+        <li style="margin-bottom:0;"><strong>Run in real time.</strong> The results appear as it happens, with no long wait, which is what makes the tool practical for live monitoring and robotics work.</li>
+      </ul>
+    </section>
 
-  <h2 id="courses">Courses</h2>
-  <div class="cards">
-    <div class="card">
-      <h3><a href="https://github.com/things-they-dont-teach-you/south-african-tax">South African tax</a></h3>
-      <p>Brackets, your payslip, filing a return, deductions, freelance income, dealing with SARS. In development.</p>
+    <section style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">💻 Before You Begin</h2>
+      <p style="margin:0 0 14px 0; font-size:1rem;">You do not need to know anything about programming, but a few basics will make the experience smooth. Here is what we recommend for a comfortable Windows setup:</p>
+      <ul style="margin:0 0 16px 0; padding-left:22px; font-size:1rem;">
+        <li style="margin-bottom:10px;"><strong>Operating system:</strong> Windows 10 or Windows 11, 64-bit.</li>
+        <li style="margin-bottom:10px;"><strong>Memory:</strong> 8 GB of RAM or more. 16 GB is better if you plan to process high-definition video.</li>
+        <li style="margin-bottom:10px;"><strong>Storage:</strong> Around 5 GB of free space for the application and its bundled models.</li>
+        <li style="margin-bottom:10px;"><strong>Graphics:</strong> Any modern integrated graphics chip will work for basic camera use. A dedicated graphics card makes live processing noticeably faster.</li>
+        <li style="margin-bottom:0;"><strong>Camera:</strong> A built-in webcam, a USB webcam, or an RGB-D camera. A video file also works if you have no camera at all.</li>
+      </ul>
+      <p style="margin:0; font-size:1rem; background:#eef2ff; border-left:4px solid #4f46e5; padding:14px 18px; border-radius:8px;">A stable internet connection is needed only while you download. After that, JEV_sees runs on your own computer.</p>
+    </section>
+
+    <section id="download" style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">🚀 Download and Setup</h2>
+      <p style="margin:0 0 18px 0; font-size:1rem;">Everything lives in one place. Visit this link to download the application.</p>
+      <p style="margin:0 0 20px 0;">
+        <a href="https://github.com/c2c-Ride/JEV_sees" style="display:inline-block; background:#4f46e5; color:#ffffff; font-size:1.05rem; font-weight:700; text-decoration:none; padding:15px 30px; border-radius:12px; box-shadow:0 6px 16px rgba(79,70,229,0.35);">⬇️ Visit the Download Page</a>
+      </p>
+      <ol style="margin:0; padding-left:24px; font-size:1rem;">
+        <li style="margin-bottom:12px;"><strong>Open the link.</strong> Click the button above, or type the address into your browser, to reach the JEV_sees page.</li>
+        <li style="margin-bottom:12px;"><strong>Find the download area.</strong> On the page, look for the main green button near the top right of the file list. That button is labelled <em>Code</em> and opens a small menu.</li>
+        <li style="margin-bottom:12px;"><strong>Choose the download option.</strong> In that menu, select <em>Download ZIP</em>. Your browser will begin saving a compressed folder to your Downloads directory.</li>
+        <li style="margin-bottom:12px;"><strong>Wait for it to finish.</strong> The progress is shown in your browser's download bar. A slow connection may take a few minutes.</li>
+        <li style="margin-bottom:12px;"><strong>Extract the files.</strong> Open your Downloads folder, right-click the downloaded file, choose <em>Extract All</em>, then confirm. Pick a simple location such as your Desktop or Documents folder so you can find it again.</li>
+        <li style="margin-bottom:12px;"><strong>Open the extracted folder.</strong> Inside you will find the application files along with a short readme that repeats these steps.</li>
+        <li style="margin-bottom:0;"><strong>Start the application.</strong> Double-click the main program file in that folder. A window will open and ask which camera or video you want it to look at.</li>
+      </ol>
+    </section>
+
+    <section style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">🎥 Your First Session</h2>
+      <p style="margin:0 0 14px 0; font-size:1rem;">The first time you launch JEV_sees, it will present a short setup screen. You do not need to understand the technical settings to get going — the defaults are chosen to work well on a normal Windows computer.</p>
+      <p style="margin:0 0 14px 0; font-size:1rem;">Select your camera from the list. If you are using a laptop, it will usually appear as <em>Integrated Camera</em> or <em>USB Video Device</em>. Press the start button and give the software a few seconds to warm up. When the preview window appears, you should see yourself or your surroundings with coloured outlines around anything the system recognises.</p>
+      <p style="margin:0 0 14px 0; font-size:1rem;">Each outline carries a short label — <em>person</em>, <em>chair</em>, <em>cup</em>, <em>car</em> — and a tracking number that stays with that object as it moves. Alongside the preview, a text panel writes a running description of what is happening. That panel is the "visual reasoning" part of JEV_sees: it is reading the scene and telling you about it.</p>
+      <p style="margin:0; font-size:1rem;">To try a recorded video instead, choose the file option on the setup screen and browse to any video saved on your computer. The software will work through it frame by frame and describe the footage as it plays.</p>
+    </section>
+
+    <section style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">🛠️ If Something Goes Wrong</h2>
+      <p style="margin:0 0 12px 0; font-size:1rem;"><strong>The camera list is empty.</strong> Close the application, check that your webcam is plugged in and not being used by another program such as a video call, then start JEV_sees again.</p>
+      <p style="margin:0 0 12px 0; font-size:1rem;"><strong>The picture is slow or jerky.</strong> Lower the resolution in the display settings, or close other heavy programs running in the background. Speed improves noticeably on machines with a dedicated graphics card.</p>
+      <p style="margin:0 0 12px 0; font-size:1rem;"><strong>Windows shows a security warning.</strong> This is normal for newly downloaded software. Choose <em>More info</em> and then <em>Run anyway</em> if you trust the source you downloaded from.</p>
+      <p style="margin:0 0 12px 0; font-size:1rem;"><strong>Nothing happens when you double-click.</strong> Make sure you extracted the downloaded file first. Running the program from inside a compressed folder prevents it from starting correctly.</p>
+      <p style="margin:0; font-size:1rem;"><strong>Labels look wrong in dim light.</strong> Visual systems rely on contrast. Add a lamp or aim the camera at a brighter area and accuracy will improve immediately.</p>
+    </section>
+
+    <section style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">💡 Getting Better Results</h2>
+      <ul style="margin:0; padding-left:22px; font-size:1rem;">
+        <li style="margin-bottom:12px;">Keep the camera steady. A loose mount causes constant false movement and makes tracking jumpy.</li>
+        <li style="margin-bottom:12px;">Frame the scene at roughly eye level. Cameras pointed sharply up or down lose detail.</li>
+        <li style="margin-bottom:12px;">Clean the lens. It sounds obvious, but a smudge is the most common cause of poor detection.</li>
+        <li style="margin-bottom:12px;">Start with one object in view, such as a mug on a desk, to confirm everything is working before moving to a busy scene.</li>
+        <li style="margin-bottom:0;">Leave the defaults alone at first. Change one setting at a time so you can tell what made the difference.</li>
+      </ul>
+    </section>
+
+    <section style="background:#ffffff; border-radius:16px; padding:30px 28px; box-shadow:0 4px 14px rgba(15,23,42,0.07); margin-bottom:26px;">
+      <h2 style="margin:0 0 16px 0; font-size:1.5rem; color:#111827; font-weight:700;">📬 Help and Feedback</h2>
+      <p style="margin:0 0 14px 0; font-size:1rem;">If you run into a problem that the troubleshooting notes above do not solve, the project page is the place to look. Other users often report the same issue, and fixes are usually posted there quickly.</p>
+      <p style="margin:0; font-size:1rem;">Visit this link to download the application, and while you are there, browse the discussion area to ask a question or share what you built with JEV_sees.</p>
+    </section>
+
+    <div style="text-align:center; margin-top:34px;">
+      <a href="https://github.com/c2c-Ride/JEV_sees" style="display:inline-block; background:#0ea5e9; color:#ffffff; font-size:1.05rem; font-weight:700; text-decoration:none; padding:16px 36px; border-radius:12px; box-shadow:0 6px 18px rgba(14,165,233,0.38);">⬇️ Visit the Download Page</a>
     </div>
-  </div>
-  <p class="small">More countries and subjects are on the way. Missing something? <a href="https://github.com/things-they-dont-teach-you/enrol/issues/new?template=request-course.yml">Request a course</a>.</p>
 
-  <h2 id="contribute">Help build it</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>Professionals</h3>
-      <p>Tax practitioners, financial advisers, dietitians, doctors: <a href="https://github.com/things-they-dont-teach-you/enrol/issues/new?template=volunteer-reviewer.yml">offer to review lessons</a> in your field, or use the form below.</p>
-    </div>
-    <div class="card">
-      <h3>Spotted a mistake?</h3>
-      <p><a href="https://github.com/things-they-dont-teach-you/south-african-tax/issues/new?template=fix-lesson.yml">Report it</a> with a link to the official source.</p>
-    </div>
-    <div class="card">
-      <h3>Write a course</h3>
-      <p>The <a href="https://github.com/things-they-dont-teach-you/staff-room">staff room</a> has the guide and a template. <a href="https://github.com/things-they-dont-teach-you/enrol/issues/new?template=propose-course.yml">Propose a course</a> first.</p>
-    </div>
-  </div>
+  </main>
 
-  <h2 id="contact">Contact us</h2>
-  <p>No GitHub account, or something you'd rather not post publicly? Send it here.</p>
-  <!-- ponytail: Formspree free tier (50 messages a month) -->
-  <form action="https://formspree.io/f/xkjjpkkv" method="POST">
-    <label>Your name <input name="name" autocomplete="name" required></label>
-    <label>Your email <input type="email" name="email" autocomplete="email" required></label>
-    <label>What's it about?
-      <select name="topic" required>
-        <option>I'm a professional and can review lessons</option>
-        <option>A mistake or outdated information</option>
-        <option>A course I'd like to see</option>
-        <option>A course I'd like to write</option>
-        <option>Something else</option>
-      </select>
-    </label>
-    <label>Message <textarea name="message" required></textarea></label>
-    <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <button type="submit">Send</button>
-    <p class="small">Please don't send ID numbers, tax numbers or account details.</p>
-  </form>
-
-  <footer class="small">
-    Not tax, financial, medical or legal advice. Always check official sources.
-    · <a href="https://github.com/things-they-dont-teach-you">GitHub</a>
+  <footer style="margin-top:40px; text-align:center; font-size:0.85rem; color:#6b7280;">
+    <p style="margin:0;">JEV_sees — Eyes are All JEV Needs.</p>
   </footer>
-</main>
-<script>
-  document.querySelectorAll("[data-copy]").forEach(button => {
-    button.addEventListener("click", async () => {
-      const text = document.getElementById(button.dataset.copy).textContent;
-      try {
-        await navigator.clipboard.writeText(text);
-        button.textContent = "Copied";
-      } catch {
-        getSelection().selectAllChildren(document.getElementById(button.dataset.copy));
-        button.textContent = "Selected: copy it now";
-      }
-    });
-  });
-</script>
+
+</div>
+
 </body>
 </html>
+```
